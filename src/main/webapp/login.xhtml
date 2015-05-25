@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+
+<h:head>
+	<meta charset="utf-8" />
+	<h:outputStylesheet library="css" name="login.css" />
+</h:head>
+<h:body>
+
+
+	<div id="exterior">
+		<div class="login">
+			<h:form id="loginForm">
+				<h:panelGroup id="newUserPGroup">
+
+					<div class="logintable">
+						<h:panelGrid columns="1">
+							<h1 style="text-align: center; color:white;">Login</h1>
+							<!-- ************* USERNAME *************-->
+							<h:outputLabel value="Username" class="loginlabel" />
+							<h:inputText value="#{login.username}" required="true"
+								requiredMessage="Please insert your Username to proceed"
+								id="username" class="logintxtbx" />
+							<h:message for="username" class="loginlabel"
+								errorClass="loginerror" />
+							<!-- ************* PASSWORD *************-->
+							<h:outputLabel value="Password" class="loginlabel" />
+							<h:inputSecret value="#{login.password}" required="true"
+								requiredMessage="Please insert your Password to proceed"
+								id="password" class="logintxtbx" />
+							<h:message for="password" errorClass="loginerror" />
+							<!-- ************* CONFIRM PASSWORD *************-->
+							<h:outputLabel value="Confirm Password" class="loginlabel"
+								rendered="#{activeUser.signup}" />
+							<h:inputSecret value="#{registo.passconfirm}" required="true"
+								requiredMessage="Please confirm your Password to proceed"
+								id="passwordConfirm" class="logintxtbx"
+								rendered="#{activeUser.signup}" />
+							<h:message for="passwordConfirm" errorClass="loginerror"
+								rendered="#{activeUser.signup}" />
+							<!-- ************* BUTTONS *************-->
+							<h:commandButton value="Register" action="#{registo.registar}"
+								class="loginbtn" rendered="#{activeUser.signup}" />
+							<h:commandButton value="Submit" action="#{login.fazLogin}"
+								class="loginbtn" rendered="#{!activeUser.signup}" />
+							<h:commandButton value="New User" styleClass="loginbtn"
+								rendered="#{!activeUser.signup}">
+								<f:ajax event="click" render="loginForm"
+									listener="#{activeUser.changeMode}"></f:ajax>
+							</h:commandButton>
+							<h:commandButton value="Cancel" class="loginbtn"
+								rendered="#{activeUser.signup}">
+								<f:ajax event="click" render="loginForm"
+									listener="#{activeUser.changeModetoLogin}"></f:ajax>
+							</h:commandButton>
+							<h:messages globalOnly="true" styleClass="loginerror"/>
+						</h:panelGrid>
+					</div>
+
+				</h:panelGroup>
+			</h:form>
+		</div>
+	</div>
+
+
+
+</h:body>
+</html>
