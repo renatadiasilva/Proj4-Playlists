@@ -11,15 +11,16 @@
 	<h:commandButton action="#{login.populate}" value="submit" />
 	</h:form>
 	
+	<br /><br />
+	
 	<h:form>
-		<div id="barmsgbox">
-			<h:outputLabel value="Welcome #{activeUser.name}" styleClass="bartext" />
-			<h:commandButton value="Logout" styleClass="barlogoutbtn" action="#{login.logout()}" />
-		</div>
+		<h:outputLabel value="Welcome, #{activeUser.email}!" styleClass="bartext" />
+		<br /><br />
+		<h:commandButton value="Logout" styleClass="barlogoutbutton" action="#{login.doLogout}" />
 	</h:form>
 	
 	<h2>Users</h2>
-	<h:dataTable value="#{login.getUsers()}" var="user">
+	<h:dataTable value="#{loginManager.getUsers()}" var="user">
 	<h:column>#{user.name}</h:column>
 	<h:column>#{user.email}</h:column>
 	</h:dataTable>
@@ -28,6 +29,7 @@
 	<h:dataTable value="#{login.getUsersStartingBy('R%')}" var="user">
 	<h:column>#{user.name}</h:column>
 	</h:dataTable>
+	
 	
 </h:body>
 </html>

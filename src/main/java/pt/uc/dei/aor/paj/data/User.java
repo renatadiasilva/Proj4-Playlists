@@ -1,18 +1,10 @@
 package pt.uc.dei.aor.paj.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/**
- * Entity implementation class for Entity: User
- *
- */
 @Entity
 @Table(name = "Users")
 // @NamedQueries
@@ -26,9 +18,9 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private String name;
-	private String password;
 	private String email;
+	private String password;
+	private String name;
 
 	@OneToMany(mappedBy = "owner")
 	@OrderBy("name")
@@ -36,8 +28,6 @@ public class User implements Serializable {
 
 	@OneToMany(mappedBy = "owner")
 	private List<Song> songs;
-
-	private static final Logger log = LoggerFactory.getLogger(User.class);
 
 	public User() {
 	}
@@ -49,7 +39,6 @@ public class User implements Serializable {
 	}
 
 	public String getName() {
-		log.info("Getting user's name.");
 		return name;
 	}
 

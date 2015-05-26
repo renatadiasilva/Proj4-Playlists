@@ -1,72 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-
 <h:head>
-	<meta charset="utf-8" />
-	<h:outputStylesheet library="css" name="login.css" />
+	<title>Playlists Manager</title>
+	<link rel="stylesheet" type="text/css" href="resources/css/style.css" />
 </h:head>
+
 <h:body>
 
+	<div class="login">
+		<h:form id="loginForm">
+			<h:panelGroup>
+				<h:panelGrid columns="1">
+				
+					<h:outputLabel style="" value="Login" class="loginheader"
+						rendered="#{!activeUser.newUser}" />
+					<h:outputLabel style="" value="New User" class="loginheader"
+						rendered="#{activeUser.newUser}" />
+				
+					<h:outputLabel value="Email" class="loginlabel" />
+					<h:inputText value="#{login.email}" required="true"
+						requiredMessage="Empty email!"
+						id="email" class="logintext" />
+					<h:message for="email" class="loginlabel" errorClass="loginerror" />
+				
+					<h:outputLabel value="Password" class="loginlabel" />
+					<h:inputSecret value="#{login.password}" required="true"
+						requiredMessage="Empty password!"
+						id="password" class="logintext" />
+					<h:message for="password" class="loginlabel" errorClass="loginerror" />
+				
+					<h:outputLabel value="Repeat Password" class="loginlabel"
+						rendered="#{activeUser.newUser}" />
+					<h:inputSecret value="#{register.repeatedPassword}" required="true"
+						requiredMessage="Empty repeated password!"
+						id="repassword" class="logintext"
+						rendered="#{activeUser.newUser}" />
+					<h:message for="repassword" class="loginlabel" errorClass="loginerror" 
+						rendered="#{activeUser.newUser}" />
 
-	<div id="exterior">
-		<div class="login">
-			<h:form id="loginForm">
-				<h:panelGroup id="newUserPGroup">
+					<h:outputLabel value="Name" class="loginlabel"
+						rendered="#{activeUser.newUser}" />
+					<h:inputText value="#{login.name}" required="true"
+						requiredMessage="Empty Name!"
+						id="name" class="logintext" 
+						rendered="#{activeUser.newUser}" />
+					<h:message for="name" class="loginlabel" errorClass="loginerror"
+						rendered="#{activeUser.newUser}"  />
 
-					<div class="logintable">
-						<h:panelGrid columns="1">
-							<h1 style="text-align: center; color:white;">Login</h1>
-							<!-- ************* USERNAME *************-->
-							<h:outputLabel value="Username" class="loginlabel" />
-							<h:inputText value="#{login.username}" required="true"
-								requiredMessage="Please insert your Username to proceed"
-								id="username" class="logintxtbx" />
-							<h:message for="username" class="loginlabel"
-								errorClass="loginerror" />
-							<!-- ************* PASSWORD *************-->
-							<h:outputLabel value="Password" class="loginlabel" />
-							<h:inputSecret value="#{login.password}" required="true"
-								requiredMessage="Please insert your Password to proceed"
-								id="password" class="logintxtbx" />
-							<h:message for="password" errorClass="loginerror" />
-							<!-- ************* CONFIRM PASSWORD *************-->
-							<h:outputLabel value="Confirm Password" class="loginlabel"
-								rendered="#{activeUser.signup}" />
-							<h:inputSecret value="#{registo.passconfirm}" required="true"
-								requiredMessage="Please confirm your Password to proceed"
-								id="passwordConfirm" class="logintxtbx"
-								rendered="#{activeUser.signup}" />
-							<h:message for="passwordConfirm" errorClass="loginerror"
-								rendered="#{activeUser.signup}" />
-							<!-- ************* BUTTONS *************-->
-							<h:commandButton value="Register" action="#{registo.registar}"
-								class="loginbtn" rendered="#{activeUser.signup}" />
-							<h:commandButton value="Submit" action="#{login.fazLogin}"
-								class="loginbtn" rendered="#{!activeUser.signup}" />
-							<h:commandButton value="New User" styleClass="loginbtn"
-								rendered="#{!activeUser.signup}">
-								<f:ajax event="click" render="loginForm"
-									listener="#{activeUser.changeMode}"></f:ajax>
-							</h:commandButton>
-							<h:commandButton value="Cancel" class="loginbtn"
-								rendered="#{activeUser.signup}">
-								<f:ajax event="click" render="loginForm"
-									listener="#{activeUser.changeModetoLogin}"></f:ajax>
-							</h:commandButton>
-							<h:messages globalOnly="true" styleClass="loginerror"/>
-						</h:panelGrid>
-					</div>
 
-				</h:panelGroup>
-			</h:form>
-		</div>
+					<h:commandButton value="OK" action="#{login.doLogin}"
+						class="loginbutton" rendered="#{!activeUser.newUser}" />
+					
+					<h:commandButton value="OK" action="#{register.singUp}"
+						class="loginbutton" rendered="#{activeUser.newUser}" />
+					
+					<h:commandButton value="New User" styleClass="loginbutton"
+						rendered="#{!activeUser.newUser}">
+						<f:ajax event="click" render="loginForm"
+							listener="#{activeUser.changeToNewUser}"></f:ajax>
+					</h:commandButton>
+					
+					<h:commandButton value="Go Back" class="loginbtn"
+						rendered="#{activeUser.newUser}">
+						<f:ajax event="click" render="loginForm"
+							listener="#{activeUser.changeToLogin}"></f:ajax>
+					</h:commandButton>
+					
+					<h:messages globalOnly="true" class="loginlabel" />
+				</h:panelGrid>
+			</h:panelGroup>
+		</h:form>
 	</div>
-
-
 
 </h:body>
 </html>

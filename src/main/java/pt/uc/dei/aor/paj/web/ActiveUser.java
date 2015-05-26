@@ -12,45 +12,46 @@ import javax.servlet.http.HttpSession;
 public class ActiveUser implements Serializable {
 
 	private static final long serialVersionUID = 1429959255702576110L;
-	private String name;
-	private boolean signup;
-	private HttpSession session;
+	private String email;
+	private boolean newUser;
+	private HttpSession uSession;
 
 	public ActiveUser() {
-		name = null;
-		signup = false;
+		email = null;
+		newUser = false;
 	}
 	
-
-	public void changeModetoLogin() {
-		this.signup = false;
+	public void changeToLogin() {
+		this.newUser = false;
 	}
-	public void changeMode() {
-		this.signup = true;
+	public void changeToNewUser() {
+		this.newUser = true;
 	}
 	/********* Getters e Setters ************/
-	public String getName() {
-		return name;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public boolean isSignup() {
-		return signup;
+	public boolean isNewUser() {
+		return newUser;
 	}
-	public void setSignup(boolean signup) {
-		this.signup = signup;
+	public void setNewUser(boolean newUser) {
+		this.newUser = newUser;
 	}
 	
 	public void startSession(){
-		session = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-		session.setAttribute("username", name);
+		uSession = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+		uSession.setAttribute("email", email);
 	}
+	
 	public void endSession(){
-		if(session!=null)
-			session.invalidate();
-		name=null;
+		if(uSession!=null)
+			uSession.invalidate();
+		email = null;
 	}
+
 }

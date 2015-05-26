@@ -7,21 +7,12 @@ import java.util.List;
 
 import javax.persistence.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/**
- * Entity implementation class for Entity: Playlist
- *
- */
 @Entity
 @Table(name="Playlists")
 public class Playlist implements Serializable {
 
 	private static final long serialVersionUID = -341288742583267978L;
 
-	static Logger log = LoggerFactory.getLogger(Playlist.class); 
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -49,7 +40,6 @@ public class Playlist implements Serializable {
 	}
 
 	public String getName() {
-		log.info("Getting playlist's name.");
 		return name;
 	}
 
@@ -84,7 +74,6 @@ public class Playlist implements Serializable {
 
 		if (this.songs == null) this.songs = new ArrayList<Song>();
 		this.songs.add(s);
-		log.info("Adding a new song to the array list");
 		// não deixar adicionar se já lá está???
 	}
 	

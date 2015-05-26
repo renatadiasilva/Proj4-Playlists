@@ -9,23 +9,21 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import pt.uc.dei.aor.paj.data.User;
 import pt.uc.dei.aor.paj.ejb.UserEJBRemote;
 
 @Named
 @RequestScoped
 public class Login {
-
-	//tirar daqui
-	static Logger log = LoggerFactory.getLogger(Login.class); 
 	
 	@EJB
 	private UserEJBRemote userEJB;
-	private String username;
+	private String email;
+	private String name;
 	private String password;
+	
+	@Inject
+	private LoginManager manager;
 	
 	@Inject
 	private ActiveUser aUser;
@@ -41,50 +39,54 @@ public class Login {
 //		this.password = password;
 //	}
 	
-	public String fazLogin() {
-		boolean success = true; // ver se tá incorreto username ou pass
-		if(success){
-			/* o que fazer se login for bem sucedido */
-			aUser.setName(username);
+	public String doLogin() {
+		boolean ok = manager.userLogin(email, password);
+		
+		if (ok) {
+			aUser.setEmail(email);
 			aUser.startSession();
-			return "index?faces-redirect=true";
+			return "/pages/index?faces-redirect=true";
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login Failed. Username or Password incorrect."));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Login failure: Wrong email or password."));
+			return "login";
 		}
-		return "failed";
 	}
 	
-	public String logout(){
+	public String doLogout(){
 		aUser.endSession();
 		return "/login?faces-redirect=true";
 	}
 	
 	public void populate(){
-		log.info("Populating");
 		userEJB.populate();
 	}
 
-	public List<User> getUsers() {
-		log.info("Listing all users.");
-		return userEJB.getUsers();
-	}
-	
 	public List<User> getUsersStartingBy(String name) {
-		log.info("Listing all users starting by "+name.substring(name.length()-2, name.length()-1));
 		return userEJB.usersWithNameStartingBy(name);
 	}
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	
+	public void setName(String name) {
+		this.name = name;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

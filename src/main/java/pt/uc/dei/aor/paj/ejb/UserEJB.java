@@ -16,9 +16,6 @@ import pt.uc.dei.aor.paj.data.Playlist;
 import pt.uc.dei.aor.paj.data.Song;
 import pt.uc.dei.aor.paj.data.User;
 
-/**
- * Session Bean implementation class UserEJB
- */
 @Stateless
 public class UserEJB implements UserEJBRemote {
 
@@ -28,6 +25,7 @@ public class UserEJB implements UserEJBRemote {
 	private static final Logger log = LoggerFactory.getLogger(UserEJB.class);
 
 	public UserEJB() {
+		// populate
 	}
 
 	public static Date getDate(int day, int month, int year) {
@@ -111,12 +109,6 @@ public class UserEJB implements UserEJBRemote {
 			log.debug("User " + i + ": " + u.toString());
 		}
 
-		log.trace("This is a trace message");
-		log.debug("This is a debug message");
-		log.info("This is a info message");
-		log.warn("This is a warn message");
-		log.error("This is a error message");
-
 	}
 
 	@Override
@@ -130,11 +122,11 @@ public class UserEJB implements UserEJBRemote {
 		// usernames.add(u.toString());
 		// }
 
-		try {
-			int i = 1 / 0;
-		} catch (ArithmeticException ex) {
-			log.error("Catching an error: " + ex + ex.getMessage());
-		}
+//		try {
+//			int i = 1 / 0;
+//		} catch (ArithmeticException ex) {
+//			log.error("Catching an error: " + ex + ex.getMessage());
+//		}
 
 		return users;
 	}
@@ -148,5 +140,37 @@ public class UserEJB implements UserEJBRemote {
 		List<User> result = q.getResultList();
 		return result;
 	}
+	
+	// basta dar o user como eu tinha, faz checks fora
+	
+	public boolean userLogin(String email, String password) {
+		populate(); //devia ser inicialmente algures...
+		log.info("Checking login data for "+email);
+		Query q = em.createQuery("from User u where u.email like :e");
+		q.setParameter("e", email);
+		@SuppressWarnings("unchecked")
+		List<User> result = q.getResultList();
+		
+		log.debug("User found:");
+		for (User u: result) log.debug(u.getEmail());
+		
+		if (result.size() > 0) {
+			return result.get(0).checkPassword(password);
+		} else return false;
+	}
 
+	public boolean checkUserEmail(String email) {
+		log.info("Checking for existing email: "+email);
+		Query q = em.createQuery("from User u where u.email like :e");
+		q.setParameter("e", email);
+		@SuppressWarnings("unchecked")
+		List<User> result = q.getResultList();
+		
+		return (result.size() == 0);
+	}
+
+	public void addUser(User u) {
+		log.info("Adding user with email"+u.getEmail());
+		em.persist(u); //check if u has a valid email (not here): u.getPassword().contains("@")
+	}
 }

@@ -1,26 +1,16 @@
 package pt.uc.dei.aor.paj.data;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-/**
- * Entity implementation class for Entity: Song
- *
- */
 @Entity
 @Table(name="Songs")
 public class Song implements Serializable {
 	
 	private static final long serialVersionUID = -846738109409670761L;
 
-	static Logger log = LoggerFactory.getLogger(Song.class); 
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
@@ -61,7 +51,6 @@ public class Song implements Serializable {
 	}
 
 	public String getTitle() {
-		log.info("Getting song's title.");
 		return title;
 	}
 
