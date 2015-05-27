@@ -7,16 +7,19 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
+import pt.uc.dei.aor.paj.data.User;
+
 @Named
 @SessionScoped
-public class ActiveUser implements Serializable {
+public class ActiveUserMB implements Serializable {
 
 	private static final long serialVersionUID = 1429959255702576110L;
 	private String email;
+	private User currentUser;
 	private boolean newUser;
 	private HttpSession uSession;
 
-	public ActiveUser() {
+	public ActiveUserMB() {
 		email = null;
 		newUser = false;
 	}
@@ -43,6 +46,14 @@ public class ActiveUser implements Serializable {
 		this.newUser = newUser;
 	}
 	
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(User u) {
+		this.currentUser = u;
+	}
+
 	public void startSession(){
 		uSession = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
 		uSession.setAttribute("email", email);
@@ -52,6 +63,11 @@ public class ActiveUser implements Serializable {
 		if(uSession!=null)
 			uSession.invalidate();
 		email = null;
+	}
+	
+	public String greetingName() {
+		String[] a = currentUser.getName().split(" ");
+		return a[0];
 	}
 
 }

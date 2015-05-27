@@ -1,8 +1,5 @@
 package pt.uc.dei.aor.paj.web;
 
-import java.util.List;
-
-import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -10,39 +7,28 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import pt.uc.dei.aor.paj.data.User;
-import pt.uc.dei.aor.paj.ejb.UserEJBRemote;
 
 @Named
 @RequestScoped
-public class Login {
+public class LoginMB {
 	
-	@EJB
-	private UserEJBRemote userEJB;
 	private String email;
 	private String name;
 	private String password;
 	
 	@Inject
-	private LoginManager manager;
+	private PlaylistsManagerMB manager;
 	
 	@Inject
-	private ActiveUser aUser;
+	private ActiveUserMB aUser;
 
-	public Login() {
-		super();
-		
+	public LoginMB() {
 	}
 		
-//	public Login(String username, String password) {
-//		super();
-//		this.username = username;
-//		this.password = password;
-//	}
-	
 	public String doLogin() {
-		boolean ok = manager.userLogin(email, password);
-		
-		if (ok) {
+		User u = manager.userLogin(email, password);
+		if (u != null) {
+			aUser.setCurrentUser(u);
 			aUser.setEmail(email);
 			aUser.startSession();
 			return "/pages/index?faces-redirect=true";
@@ -57,14 +43,6 @@ public class Login {
 		return "/login?faces-redirect=true";
 	}
 	
-	public void populate(){
-		userEJB.populate();
-	}
-
-	public List<User> getUsersStartingBy(String name) {
-		return userEJB.usersWithNameStartingBy(name);
-	}
-
 	public String getName() {
 		return name;
 	}

@@ -11,7 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 //import pt.uc.dei.aor.paj.data.User;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginTest {
+public class LoginMBTest {
 //	@InjectMocks GestorUtilizador gestor;
 //	private User u;
 	

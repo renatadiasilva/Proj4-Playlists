@@ -10,7 +10,7 @@ import pt.uc.dei.aor.paj.data.User;
 
 @Named
 @RequestScoped
-public class Register {
+public class RegisterMB {
 
 	private String email;
 	private String password;
@@ -18,20 +18,21 @@ public class Register {
 	private String name;
 	
 	@Inject
-	private LoginManager manager;
+	private PlaylistsManagerMB manager;
 	
 	@Inject
-	Login login;
+	LoginMB login;
 	
 	@Inject
-	ActiveUser aUser;
+	ActiveUserMB aUser;
 
-	public Register() {
+	public RegisterMB() {
 
 	}
 
 	public void singUp() {
 
+		this.name = login.getName();
 		this.email = login.getEmail();
 		this.password = login.getPassword();
 		

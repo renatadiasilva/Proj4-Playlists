@@ -14,20 +14,14 @@
 
 		<ui:define name="content">
 
-			<div class="contentTitle">Index</div>
+			<div class="contentTitle">List All Users Starting by R</div>
 
 			<br /><br />
 
-			<div class="myText" id="txtUrf">
-				<p>Start adding songs and create your own playlists!!!</p>
-				<br />
-				<p>Take a look at the menu and choose what you want to do do
-					next!!!</p>
-			</div>
-			
-	    	<div id="audioContainer">
-				<audio src="../resources/audio/audio1.mp3" type="audio/mpeg" loop="loop" autoplay="autoplay" controls="controls" />
-			</div>
+			<h:dataTable value="#{playlistsManagerMB.getUsersStartingBy('R%')}"
+				var="user">
+				<h:column>#{user.name}</h:column>
+			</h:dataTable>
 
 		</ui:define>
 
